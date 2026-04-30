@@ -12,6 +12,9 @@
   
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- jsPDF -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
   <style>
     :root {
@@ -697,27 +700,42 @@
       return;
     }
     
-    let report = 'TRINETHRA — SUPERVISOR FEEDBACK ANALYSIS REPORT\n';
-    report += '='.repeat(50) + '\n\n';
-
-    accepted.forEach((f, i) => {
-      report += `Finding ${i + 1}: ${f.title}\n`;
-      report += `Status: ${f.status.toUpperCase()}\n`;
-      report += `Score: ${f.score}/10\n`;
-      report += `Observation: ${f.observation}\n`;
-      report += `Gap/Suggestion: ${f.gap}\n`;
-      report += '-'.repeat(40) + '\n\n';
-    });
-
     try {
-      const blob = new Blob([report], { type: 'text/plain' });
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = 'trinethra_report.txt';
-      a.click();
-      showToast('Report exported successfully!', 'success');
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      
+      let yPos = 20;
+      doc.setFontSize(16);
+      doc.text('Trinethra - Supervisor Feedback Analysis Report', 14, yPos);
+      yPos += 15;
+      
+      doc.setFontSize(11);
+      
+      accepted.forEach((f, i) => {
+        // Add new page if we are near the bottom
+        if (yPos > 260) {
+          doc.addPage();
+          yPos = 20;
+        }
+        
+        doc.setFont("helvetica", "bold");
+        doc.text(`Finding ${i + 1}: ${f.title} (Score: ${f.score}/10)`, 14, yPos);
+        yPos += 7;
+        
+        doc.setFont("helvetica", "normal");
+        const obsLines = doc.splitTextToSize(`Observation: ${f.observation}`, 180);
+        doc.text(obsLines, 14, yPos);
+        yPos += (obsLines.length * 6);
+        
+        const gapLines = doc.splitTextToSize(`Gap/Suggestion: ${f.gap}`, 180);
+        doc.text(gapLines, 14, yPos);
+        yPos += (gapLines.length * 6) + 8;
+      });
+
+      doc.save('trinethra_report.pdf');
+      showToast('Report exported as PDF successfully!', 'success');
     } catch(err) {
-      showToast('Failed to export report.', 'error');
+      showToast('Failed to export PDF report.', 'error');
       console.error(err);
     }
   }
