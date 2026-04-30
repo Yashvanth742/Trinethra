@@ -40,7 +40,11 @@ Transcript:
         response = requests.post('http://localhost:11434/api/generate', json={
             "model": "llama3",
             "prompt": prompt,
-            "stream": False
+            "stream": False,
+            "options": {
+                "num_predict": 2048,
+                "temperature": 0.2
+            }
         }, timeout=120)
 
         result = response.json()
@@ -53,6 +57,19 @@ Transcript:
             end = raw_text.rindex(']') + 1
             json_text = raw_text[start:end]
             findings = json.loads(json_text)
+        except ValueError:
+            # Handle case where ']' might be missing because it got cut off
+            try:
+                start = raw_text.index('[')
+                json_text = raw_text[start:].strip()
+                if json_text.endswith(','):
+                    json_text = json_text[:-1]
+                if not json_text.endswith(']'):
+                    json_text += ']'
+                findings = json.loads(json_text)
+            except Exception as e:
+                print("PARSE ERROR (Truncated Fix Failed):", e)
+                findings = [{"title": "Parse Error", "observation": raw_text[:300], "score": 0, "gap": "Could not parse response"}]
         except json.JSONDecodeError:
             # Try cleaning the text and parsing again
             try:
@@ -60,7 +77,7 @@ Transcript:
                 json_text = re.sub(r'[\x00-\x1f\x7f]', '', json_text)
                 findings = json.loads(json_text)
             except Exception as e:
-                print("PARSE ERROR:", e)
+                print("PARSE ERROR (Decode Error):", e)
                 findings = [{"title": "Parse Error", "observation": raw_text[:300], "score": 0, "gap": "Could not parse response"}]
         except Exception as e:
             print("PARSE ERROR:", e)
