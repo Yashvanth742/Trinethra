@@ -4,168 +4,248 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Trinethra — Supervisor Feedback Analyzer</title>
+  
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
   <style>
+    :root {
+      --bg-color: #f8fafc;
+      --card-bg: #ffffff;
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --text-muted: #94a3b8;
+      
+      --primary: #4f46e5;
+      --primary-hover: #4338ca;
+      --primary-light: #e0e7ff;
+      --primary-text: #3730a3;
+      
+      --success: #10b981;
+      --success-light: #d1fae5;
+      --success-text: #065f46;
+      --success-hover: #10b981;
+      
+      --danger: #ef4444;
+      --danger-light: #fee2e2;
+      --danger-text: #991b1b;
+      
+      --warning: #f59e0b;
+      --warning-light: #fef3c7;
+      --warning-text: #92400e;
+
+      --border-color: #e2e8f0;
+      
+      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+      --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+      
+      --radius-md: 8px;
+      --radius-lg: 12px;
+      --radius-xl: 16px;
+      
+      --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      font-family: 'Segoe UI', sans-serif;
-      background: #f4f6f9;
-      color: #1a1a2e;
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-color);
+      color: var(--text-primary);
       min-height: 100vh;
+      line-height: 1.5;
     }
 
     header {
-      background: #1a1a2e;
-      color: white;
-      padding: 20px 40px;
+      background: var(--card-bg);
+      border-bottom: 1px solid var(--border-color);
+      padding: 16px 40px;
+      display: flex;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .header-content {
+      max-width: 900px;
+      margin: 0 auto;
+      width: 100%;
       display: flex;
       align-items: center;
       gap: 12px;
     }
 
-    header h1 { font-size: 22px; }
-    header span { font-size: 13px; opacity: 0.6; }
-
-    .container { max-width: 900px; margin: 40px auto; padding: 0 20px; }
-
-    .card {
-      background: white;
-      border-radius: 12px;
-      padding: 28px;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.07);
-      margin-bottom: 24px;
+    .logo-icon {
+      color: var(--primary);
+      width: 28px;
+      height: 28px;
     }
 
-    .card h2 { font-size: 16px; margin-bottom: 12px; color: #444; }
+    header h1 { 
+      font-size: 20px; 
+      font-weight: 700;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    header span { 
+      font-size: 14px; 
+      font-weight: 500;
+      color: var(--text-muted); 
+      margin-left: 8px;
+      border-left: 1px solid var(--border-color);
+      padding-left: 12px;
+    }
+
+    .container { 
+      max-width: 800px; 
+      margin: 40px auto; 
+      padding: 0 20px; 
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: var(--radius-xl);
+      padding: 32px;
+      box-shadow: var(--shadow-md);
+      margin-bottom: 32px;
+      border: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .card h2 { 
+      font-size: 18px; 
+      font-weight: 600;
+      margin-bottom: 16px; 
+      color: var(--text-primary); 
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
 
     textarea {
       width: 100%;
-      height: 180px;
-      border: 1.5px solid #ddd;
-      border-radius: 8px;
-      padding: 14px;
-      font-size: 14px;
+      height: 160px;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      font-size: 15px;
       resize: vertical;
       font-family: inherit;
-      color: #333;
+      color: var(--text-primary);
+      background: #fcfcfd;
+      transition: var(--transition);
+      line-height: 1.6;
     }
 
-    textarea:focus { outline: none; border-color: #4f46e5; }
+    textarea:focus { 
+      outline: none; 
+      border-color: var(--primary); 
+      box-shadow: 0 0 0 4px var(--primary-light);
+      background: white;
+    }
+    
+    textarea::placeholder {
+      color: var(--text-muted);
+    }
 
     button.analyze-btn {
-      margin-top: 14px;
-      background: #4f46e5;
+      margin-top: 20px;
+      background: var(--primary);
       color: white;
       border: none;
-      padding: 12px 28px;
-      border-radius: 8px;
+      padding: 14px 28px;
+      border-radius: var(--radius-md);
       font-size: 15px;
+      font-weight: 600;
       cursor: pointer;
       width: 100%;
-    }
-
-    button.analyze-btn:hover { background: #4338ca; }
-    button.analyze-btn:disabled { background: #a5b4fc; cursor: not-allowed; }
-
-    .finding-card {
-      background: white;
-      border-radius: 12px;
-      padding: 22px;
-      margin-bottom: 16px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-      border-left: 4px solid #4f46e5;
-    }
-
-    .finding-card.accepted { border-left-color: #10b981; }
-    .finding-card.rejected { border-left-color: #ef4444; opacity: 0.5; }
-
-    .finding-header {
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
       align-items: center;
-      margin-bottom: 10px;
+      gap: 8px;
+      transition: var(--transition);
+      box-shadow: 0 2px 4px rgba(79, 70, 229, 0.2);
     }
 
-    .finding-title { font-size: 16px; font-weight: 600; }
-
-    .score-badge {
-      background: #eef2ff;
-      color: #4f46e5;
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-weight: 700;
-      font-size: 14px;
+    button.analyze-btn:hover { 
+      background: var(--primary-hover); 
+      transform: translateY(-1px);
+      box-shadow: 0 4px 6px rgba(79, 70, 229, 0.3);
+    }
+    
+    button.analyze-btn:active {
+      transform: translateY(0);
+    }
+    
+    button.analyze-btn:disabled { 
+      background: var(--text-muted); 
+      cursor: not-allowed; 
+      transform: none;
+      box-shadow: none;
     }
 
-    .finding-label {
-      font-size: 11px;
-      font-weight: 600;
-      color: #999;
-      text-transform: uppercase;
-      margin-top: 10px;
-      margin-bottom: 3px;
-    }
-
-    .finding-text { font-size: 14px; color: #333; line-height: 1.5; }
-
-    .finding-text.editable {
-      border: 1px dashed #ccc;
-      border-radius: 6px;
-      padding: 6px 10px;
-      min-height: 36px;
-      outline: none;
-    }
-
-    .finding-text.editable:focus { border-color: #4f46e5; }
-
-    .action-buttons { display: flex; gap: 10px; margin-top: 16px; }
-
-    .btn {
-      padding: 7px 18px;
-      border-radius: 6px;
-      border: none;
-      font-size: 13px;
-      cursor: pointer;
-      font-weight: 500;
-    }
-
-    .btn-accept { background: #d1fae5; color: #065f46; }
-    .btn-accept:hover { background: #a7f3d0; }
-    .btn-edit { background: #e0e7ff; color: #3730a3; }
-    .btn-edit:hover { background: #c7d2fe; }
-    .btn-reject { background: #fee2e2; color: #991b1b; }
-    .btn-reject:hover { background: #fecaca; }
-
-    .status-tag {
-      font-size: 11px;
-      font-weight: 700;
-      padding: 3px 10px;
-      border-radius: 20px;
-      margin-left: 10px;
-    }
-
-    .tag-accepted { background: #d1fae5; color: #065f46; }
-    .tag-rejected { background: #fee2e2; color: #991b1b; }
-    .tag-editing { background: #fef3c7; color: #92400e; }
-
+    /* Loading Skeleton */
     #loading {
-      text-align: center;
-      padding: 40px;
-      font-size: 15px;
-      color: #6b7280;
       display: none;
+      margin-bottom: 32px;
     }
-
+    
+    .loading-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+      color: var(--text-secondary);
+      font-weight: 500;
+      font-size: 15px;
+    }
+    
     .spinner {
-      width: 36px; height: 36px;
-      border: 4px solid #e5e7eb;
-      border-top-color: #4f46e5;
+      width: 20px; height: 20px;
+      border: 2px solid var(--border-color);
+      border-top-color: var(--primary);
       border-radius: 50%;
       animation: spin 0.8s linear infinite;
-      margin: 0 auto 16px;
     }
 
     @keyframes spin { to { transform: rotate(360deg); } }
+
+    .skeleton-card {
+      background: white;
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      margin-bottom: 16px;
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow-sm);
+    }
+    
+    .skeleton-line {
+      height: 12px;
+      background: #e2e8f0;
+      border-radius: 4px;
+      margin-bottom: 12px;
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+    
+    .skeleton-line.w-1\/3 { width: 33%; height: 20px; margin-bottom: 20px; }
+    .skeleton-line.w-full { width: 100%; }
+    .skeleton-line.w-5\/6 { width: 83%; }
+    .skeleton-line.w-1\/2 { width: 50%; }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
 
     #results-section { display: none; }
 
@@ -173,66 +253,348 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .results-header h2 { 
+      font-size: 20px; 
+      font-weight: 700; 
+      color: var(--text-primary);
+    }
+
+    .export-btn {
+      background: white;
+      color: var(--text-primary);
+      border: 1px solid var(--border-color);
+      padding: 10px 16px;
+      border-radius: var(--radius-md);
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: var(--transition);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .export-btn:hover { 
+      background: #f1f5f9; 
+      border-color: #cbd5e1;
+    }
+
+    .finding-card {
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border-color);
+      border-left: 4px solid var(--primary);
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .finding-card:hover {
+      box-shadow: var(--shadow-md);
+    }
+
+    .finding-card.accepted { border-left-color: var(--success); }
+    .finding-card.rejected { border-left-color: var(--danger); opacity: 0.6; }
+    .finding-card.editing { border-left-color: var(--warning); }
+
+    .finding-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
       margin-bottom: 16px;
     }
 
-    .results-header h2 { font-size: 18px; font-weight: 700; }
-
-    .export-btn {
-      background: #1a1a2e;
-      color: white;
-      border: none;
-      padding: 9px 20px;
-      border-radius: 8px;
-      font-size: 13px;
-      cursor: pointer;
+    .finding-title-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
     }
 
-    .export-btn:hover { background: #2d2d4e; }
+    .finding-title { 
+      font-size: 16px; 
+      font-weight: 600; 
+      color: var(--text-primary);
+    }
+
+    .score-badge {
+      background: var(--primary-light);
+      color: var(--primary-text);
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    
+    .finding-card.accepted .score-badge { background: var(--success-light); color: var(--success-text); }
+
+    .finding-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 16px;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .finding-text { 
+      font-size: 15px; 
+      color: var(--text-secondary); 
+      line-height: 1.6; 
+      padding: 8px 12px;
+      background: #f8fafc;
+      border-radius: 6px;
+      border: 1px solid transparent;
+      transition: var(--transition);
+    }
+
+    .finding-text.editable {
+      border: 1px solid var(--border-color);
+      background: white;
+    }
+    
+    .finding-card.rejected .finding-text { background: transparent; }
+
+    .finding-text.editable:hover {
+      border-color: #cbd5e1;
+    }
+
+    .finding-text.editable:focus { 
+      outline: none; 
+      border-color: var(--primary); 
+      background: white;
+      box-shadow: 0 0 0 3px var(--primary-light);
+    }
+
+    .action-buttons { 
+      display: flex; 
+      gap: 8px; 
+      margin-top: 24px; 
+      border-top: 1px solid var(--border-color);
+      padding-top: 16px;
+    }
+
+    .btn {
+      padding: 8px 16px;
+      border-radius: 6px;
+      border: 1px solid transparent;
+      font-size: 13px;
+      cursor: pointer;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: var(--transition);
+    }
+
+    .btn-accept { 
+      background: white; 
+      color: var(--text-secondary);
+      border-color: var(--border-color);
+    }
+    .btn-accept:hover, .finding-card.accepted .btn-accept { 
+      background: var(--success-light); 
+      color: var(--success-text); 
+      border-color: var(--success-light);
+    }
+    
+    .btn-edit { 
+      background: white; 
+      color: var(--text-secondary); 
+      border-color: var(--border-color);
+    }
+    .btn-edit:hover, .finding-card.editing .btn-edit { 
+      background: var(--warning-light); 
+      color: var(--warning-text); 
+      border-color: var(--warning-light);
+    }
+    
+    .btn-reject { 
+      background: white; 
+      color: var(--text-secondary); 
+      border-color: var(--border-color);
+    }
+    .btn-reject:hover, .finding-card.rejected .btn-reject { 
+      background: var(--danger-light); 
+      color: var(--danger-text); 
+      border-color: var(--danger-light);
+    }
+
+    .status-tag {
+      font-size: 12px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 4px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .tag-accepted { background: var(--success-light); color: var(--success-text); }
+    .tag-rejected { background: var(--danger-light); color: var(--danger-text); }
+    .tag-editing { background: var(--warning-light); color: var(--warning-text); }
+
+    /* Toast Notifications */
+    #toast-container {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 50;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    
+    .toast {
+      background: white;
+      color: var(--text-primary);
+      padding: 16px 20px;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-lg);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 14px;
+      font-weight: 500;
+      border-left: 4px solid var(--primary);
+      transform: translateX(120%);
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+    
+    .toast.show {
+      transform: translateX(0);
+      opacity: 1;
+    }
+    
+    .toast.error { border-left-color: var(--danger); }
+    .toast.success { border-left-color: var(--success); }
+    
+    .toast-icon.error { color: var(--danger); }
+    .toast-icon.success { color: var(--success); }
+
   </style>
 </head>
 <body>
 
 <header>
-  <div>
-    <h1>👁️ Trinethra</h1>
-    <span>Supervisor Feedback Analyzer </span>
+  <div class="header-content">
+    <i data-lucide="eye" class="logo-icon"></i>
+    <h1>Trinethra <span>Supervisor Feedback Analyzer</span></h1>
   </div>
 </header>
 
 <div class="container">
 
   <div class="card">
-    <h2>Paste Supervisor Transcript</h2>
+    <h2><i data-lucide="message-square-text" style="width: 20px; height: 20px;"></i> Input Transcript</h2>
     <textarea id="transcript" placeholder="Paste the full supervisor feedback transcript here..."></textarea>
-    <button class="analyze-btn" onclick="analyzeTranscript()">🔍 Analyze Transcript</button>
+    <button class="analyze-btn" onclick="analyzeTranscript()">
+      <i data-lucide="sparkles" style="width: 18px; height: 18px;"></i>
+      Analyze Feedback
+    </button>
   </div>
 
   <div id="loading">
-    <div class="spinner"></div>
-    Analyzing transcript with AI... this may take 20–40 seconds
+    <div class="loading-header">
+      <div class="spinner"></div>
+      Analyzing transcript using AI models...
+    </div>
+    
+    <div class="skeleton-card">
+      <div class="skeleton-line w-1/3"></div>
+      <div class="skeleton-line w-full"></div>
+      <div class="skeleton-line w-5/6"></div>
+      <br>
+      <div class="skeleton-line w-full"></div>
+      <div class="skeleton-line w-1/2"></div>
+    </div>
+    
+    <div class="skeleton-card" style="opacity: 0.7;">
+      <div class="skeleton-line w-1/3"></div>
+      <div class="skeleton-line w-full"></div>
+      <div class="skeleton-line w-5/6"></div>
+    </div>
   </div>
 
   <div id="results-section">
     <div class="results-header">
-      <h2>AI-Generated Findings — Review Each One</h2>
-      <button class="export-btn" onclick="exportReport()">⬇️ Export Report</button>
+      <h2>AI-Generated Findings</h2>
+      <button class="export-btn" onclick="exportReport()">
+        <i data-lucide="download" style="width: 16px; height: 16px;"></i>
+        Export Report
+      </button>
     </div>
     <div id="findings-container"></div>
   </div>
 
 </div>
 
+<!-- Toast Container -->
+<div id="toast-container"></div>
+
 <script>
+  // Initialize Lucide icons
+  lucide.createIcons();
+
   let findings = [];
+
+  // Toast System
+  function showToast(message, type = 'default') {
+    const container = document.getElementById('toast-container');
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    
+    let iconName = 'info';
+    if (type === 'error') iconName = 'alert-circle';
+    if (type === 'success') iconName = 'check-circle-2';
+    
+    toast.innerHTML = `
+      <i data-lucide="${iconName}" class="toast-icon ${type}"></i>
+      <span>${message}</span>
+    `;
+    
+    container.appendChild(toast);
+    lucide.createIcons({ root: toast });
+    
+    // Trigger animation
+    setTimeout(() => toast.classList.add('show'), 10);
+    
+    // Remove after 3 seconds
+    setTimeout(() => {
+      toast.classList.remove('show');
+      setTimeout(() => toast.remove(), 300);
+    }, 3000);
+  }
 
   async function analyzeTranscript() {
     const transcript = document.getElementById('transcript').value.trim();
-    if (!transcript) { alert('Please paste a transcript first.'); return; }
+    if (!transcript) { 
+      showToast('Please paste a transcript first.', 'error'); 
+      return; 
+    }
 
     document.getElementById('loading').style.display = 'block';
     document.getElementById('results-section').style.display = 'none';
-    document.querySelector('.analyze-btn').disabled = true;
+    const btn = document.querySelector('.analyze-btn');
+    btn.disabled = true;
+    btn.innerHTML = `<div class="spinner" style="border-top-color: white; width: 18px; height: 18px; border-width: 2px;"></div> Analyzing...`;
 
     try {
       const response = await fetch('/analyze', {
@@ -244,12 +606,15 @@
       const data = await response.json();
       findings = data.findings.map(f => ({ ...f, status: 'pending' }));
       renderFindings();
+      showToast('Analysis complete!', 'success');
     } catch (err) {
-      alert('Something went wrong. Make sure Ollama is running.');
+      showToast('Error: Make sure the local Ollama instance is running.', 'error');
       console.error(err);
     } finally {
       document.getElementById('loading').style.display = 'none';
-      document.querySelector('.analyze-btn').disabled = false;
+      btn.disabled = false;
+      btn.innerHTML = `<i data-lucide="sparkles" style="width: 18px; height: 18px;"></i> Analyze Feedback`;
+      lucide.createIcons({ root: btn });
     }
   }
 
@@ -258,42 +623,61 @@
     container.innerHTML = '';
 
     findings.forEach((f, i) => {
-      const statusTag = f.status === 'accepted'
-        ? '<span class="status-tag tag-accepted">✓ Accepted</span>'
-        : f.status === 'rejected'
-        ? '<span class="status-tag tag-rejected">✗ Rejected</span>'
-        : f.status === 'editing'
-        ? '<span class="status-tag tag-editing">✏ Editing</span>'
-        : '';
+      let statusTag = '';
+      if (f.status === 'accepted') {
+        statusTag = `<span class="status-tag tag-accepted"><i data-lucide="check" style="width: 12px; height: 12px;"></i> Accepted</span>`;
+      } else if (f.status === 'rejected') {
+        statusTag = `<span class="status-tag tag-rejected"><i data-lucide="x" style="width: 12px; height: 12px;"></i> Rejected</span>`;
+      } else if (f.status === 'editing') {
+        statusTag = `<span class="status-tag tag-editing"><i data-lucide="edit-2" style="width: 12px; height: 12px;"></i> Editing</span>`;
+      }
 
       container.innerHTML += `
         <div class="finding-card ${f.status}" id="card-${i}">
           <div class="finding-header">
-            <div>
+            <div class="finding-title-group">
               <span class="finding-title">${f.title}</span>
               ${statusTag}
             </div>
-            <span class="score-badge">Score: ${f.score}/10</span>
+            <span class="score-badge">
+              <i data-lucide="award" style="width: 14px; height: 14px;"></i>
+              ${f.score}/10
+            </span>
           </div>
 
-          <div class="finding-label">Observation</div>
+          <div class="finding-label">
+            <i data-lucide="file-text" style="width: 14px; height: 14px;"></i>
+            Observation
+          </div>
           <div class="finding-text editable" contenteditable="true" id="obs-${i}"
                onblur="saveEdit(${i}, 'observation', this.innerText)">${f.observation}</div>
 
-          <div class="finding-label">Gap / Suggestion</div>
+          <div class="finding-label">
+            <i data-lucide="lightbulb" style="width: 14px; height: 14px;"></i>
+            Gap / Suggestion
+          </div>
           <div class="finding-text editable" contenteditable="true" id="gap-${i}"
                onblur="saveEdit(${i}, 'gap', this.innerText)">${f.gap}</div>
 
           <div class="action-buttons">
-            <button class="btn btn-accept" onclick="setStatus(${i}, 'accepted')">✓ Accept</button>
-            <button class="btn btn-edit" onclick="setStatus(${i}, 'editing')">✏ Edit</button>
-            <button class="btn btn-reject" onclick="setStatus(${i}, 'rejected')">✗ Reject</button>
+            <button class="btn btn-accept" onclick="setStatus(${i}, 'accepted')">
+              <i data-lucide="check-circle" style="width: 14px; height: 14px;"></i> Accept
+            </button>
+            <button class="btn btn-edit" onclick="setStatus(${i}, 'editing')">
+              <i data-lucide="edit" style="width: 14px; height: 14px;"></i> Edit
+            </button>
+            <button class="btn btn-reject" onclick="setStatus(${i}, 'rejected')">
+              <i data-lucide="x-circle" style="width: 14px; height: 14px;"></i> Reject
+            </button>
           </div>
         </div>
       `;
     });
 
     document.getElementById('results-section').style.display = 'block';
+    
+    // Re-initialize icons for the new elements
+    lucide.createIcons();
   }
 
   function setStatus(i, status) {
@@ -307,6 +691,12 @@
 
   function exportReport() {
     const accepted = findings.filter(f => f.status !== 'rejected');
+    
+    if (accepted.length === 0) {
+      showToast('No accepted findings to export.', 'error');
+      return;
+    }
+    
     let report = 'TRINETHRA — SUPERVISOR FEEDBACK ANALYSIS REPORT\n';
     report += '='.repeat(50) + '\n\n';
 
@@ -319,11 +709,17 @@
       report += '-'.repeat(40) + '\n\n';
     });
 
-    const blob = new Blob([report], { type: 'text/plain' });
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = 'trinethra_report.txt';
-    a.click();
+    try {
+      const blob = new Blob([report], { type: 'text/plain' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'trinethra_report.txt';
+      a.click();
+      showToast('Report exported successfully!', 'success');
+    } catch(err) {
+      showToast('Failed to export report.', 'error');
+      console.error(err);
+    }
   }
 </script>
 
