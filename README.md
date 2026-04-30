@@ -1,6 +1,6 @@
 🚀 Trinethra – AI-Assisted Supervisor Feedback Analyzer
 
-Trinethra is a web-based AI-assisted analysis tool designed to streamline the evaluation of supervisor feedback within DeepThought’s PDGMS ecosystem. It transforms unstructured supervisor transcripts into structured, actionable insights, significantly reducing manual analysis time while preserving human judgment.
+Trinethra is a web-based AI-assisted analysis tool designed to streamline the evaluation of supervisor feedback within  ecosystem. It transforms unstructured supervisor transcripts into structured, actionable insights, significantly reducing manual analysis time while preserving human judgment.
 
 🧠 Problem
 
