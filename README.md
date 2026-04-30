@@ -23,7 +23,7 @@ Trinethra follows a “AI suggests, human decides” approach. The system is int
 
 🔧 Tech Stack
 Frontend: HTML/CSS/JavaScript (or React)
-Backend: Node.js / Python
+Backend: Flask / Python
 AI: Ollama (Local LLM)
 📈 Impact
 
