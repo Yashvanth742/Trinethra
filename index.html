@@ -68,6 +68,7 @@
       min-height: 100vh;
       line-height: 1.5;
       position: relative;
+      overflow-x: hidden;
     }
 
     header {
@@ -106,6 +107,7 @@
       display: flex;
       align-items: center;
       gap: 10px;
+      flex-grow: 1;
     }
 
     header span {
@@ -121,6 +123,7 @@
       max-width: 800px;
       margin: 40px auto;
       padding: 0 20px;
+      transition: var(--transition);
     }
 
     .card {
@@ -134,14 +137,39 @@
       border: 1px solid var(--border-color);
     }
 
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
     .card h2 {
       font-size: 18px;
       font-weight: 600;
-      margin-bottom: 16px;
       color: var(--text-primary);
       display: flex;
       align-items: center;
       gap: 8px;
+    }
+
+    .controls-group {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    select.role-select {
+      background: rgba(0, 0, 0, 0.4);
+      color: white;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 8px 12px;
+      font-size: 14px;
+      outline: none;
+      cursor: pointer;
     }
 
     textarea {
@@ -168,6 +196,38 @@
 
     textarea::placeholder {
       color: var(--text-muted);
+    }
+
+    .mic-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-color);
+      color: var(--text-secondary);
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .mic-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+    }
+
+    .mic-btn.recording {
+      background: var(--danger-light);
+      border-color: var(--danger);
+      color: var(--danger-text);
+      animation: pulse-danger 1.5s infinite;
+    }
+
+    @keyframes pulse-danger {
+      0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+      70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
     }
 
     button.analyze-btn {
@@ -244,7 +304,6 @@
       padding: 24px;
       margin-bottom: 16px;
       border: 1px solid var(--border-color);
-      box-shadow: var(--shadow-sm);
     }
 
     .skeleton-line {
@@ -255,38 +314,54 @@
       animation: pulse 1.5s ease-in-out infinite;
     }
 
-    .skeleton-line.w-1\/3 {
-      width: 33%;
-      height: 20px;
-      margin-bottom: 20px;
-    }
-
-    .skeleton-line.w-full {
-      width: 100%;
-    }
-
-    .skeleton-line.w-5\/6 {
-      width: 83%;
-    }
-
-    .skeleton-line.w-1\/2 {
-      width: 50%;
-    }
+    .skeleton-line.w-1\/3 { width: 33%; height: 20px; margin-bottom: 20px; }
+    .skeleton-line.w-full { width: 100%; }
+    .skeleton-line.w-5\/6 { width: 83%; }
+    .skeleton-line.w-1\/2 { width: 50%; }
 
     @keyframes pulse {
-
-      0%,
-      100% {
-        opacity: 1;
-      }
-
-      50% {
-        opacity: 0.5;
-      }
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
     }
 
     #results-section {
       display: none;
+    }
+
+    .sentiment-container {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      margin-bottom: 24px;
+      padding: 20px;
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .gauge-circle {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      font-weight: 700;
+      border: 6px solid var(--primary);
+      position: relative;
+    }
+
+    .sentiment-text h3 {
+      font-size: 18px;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+
+    .sentiment-text p {
+      font-size: 14px;
+      color: var(--text-muted);
     }
 
     .results-header {
@@ -296,12 +371,19 @@
       margin-bottom: 24px;
       padding-bottom: 16px;
       border-bottom: 1px solid var(--border-color);
+      flex-wrap: wrap;
+      gap: 12px;
     }
 
     .results-header h2 {
       font-size: 20px;
       font-weight: 700;
       color: var(--text-primary);
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 12px;
     }
 
     .export-btn {
@@ -317,29 +399,23 @@
       align-items: center;
       gap: 8px;
       transition: var(--transition);
-      box-shadow: var(--shadow-sm);
       backdrop-filter: blur(8px);
     }
 
     .export-btn:hover {
       background: rgba(255, 255, 255, 0.1);
       border-color: rgba(255, 255, 255, 0.3);
-      box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
     }
 
     .finding-card {
       background: var(--card-bg);
       backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
       border-radius: var(--radius-lg);
       padding: 24px;
       margin-bottom: 20px;
-      box-shadow: var(--shadow-sm);
       border: 1px solid var(--border-color);
       border-left: 4px solid var(--primary);
       transition: var(--transition);
-      position: relative;
-      overflow: hidden;
     }
 
     .finding-card:hover {
@@ -347,18 +423,9 @@
       transform: translateY(-2px);
     }
 
-    .finding-card.accepted {
-      border-left-color: var(--success);
-    }
-
-    .finding-card.rejected {
-      border-left-color: var(--danger);
-      opacity: 0.6;
-    }
-
-    .finding-card.editing {
-      border-left-color: var(--warning);
-    }
+    .finding-card.accepted { border-left-color: var(--success); }
+    .finding-card.rejected { border-left-color: var(--danger); opacity: 0.6; }
+    .finding-card.editing { border-left-color: var(--warning); }
 
     .finding-header {
       display: flex;
@@ -430,15 +497,10 @@
       background: transparent;
     }
 
-    .finding-text.editable:hover {
-      border-color: rgba(255, 255, 255, 0.2);
-    }
-
     .finding-text.editable:focus {
       outline: none;
       border-color: var(--primary);
       background: rgba(0, 0, 0, 0.4);
-      box-shadow: 0 0 0 3px var(--primary-light), 0 0 8px rgba(129, 140, 248, 0.3);
     }
 
     .action-buttons {
@@ -462,46 +524,19 @@
       transition: var(--transition);
     }
 
-    .btn-accept {
-      background: rgba(255, 255, 255, 0.05);
-      color: var(--text-secondary);
-      border-color: var(--border-color);
+    .btn-accept { background: rgba(255, 255, 255, 0.05); color: var(--text-secondary); border-color: var(--border-color); }
+    .btn-accept:hover, .finding-card.accepted .btn-accept {
+      background: var(--success-light); color: var(--success-text); border-color: var(--success-light);
     }
 
-    .btn-accept:hover,
-    .finding-card.accepted .btn-accept {
-      background: var(--success-light);
-      color: var(--success-text);
-      border-color: var(--success-light);
-      box-shadow: 0 0 10px rgba(16, 185, 129, 0.2);
+    .btn-edit { background: rgba(255, 255, 255, 0.05); color: var(--text-secondary); border-color: var(--border-color); }
+    .btn-edit:hover, .finding-card.editing .btn-edit {
+      background: var(--warning-light); color: var(--warning-text); border-color: var(--warning-light);
     }
 
-    .btn-edit {
-      background: rgba(255, 255, 255, 0.05);
-      color: var(--text-secondary);
-      border-color: var(--border-color);
-    }
-
-    .btn-edit:hover,
-    .finding-card.editing .btn-edit {
-      background: var(--warning-light);
-      color: var(--warning-text);
-      border-color: var(--warning-light);
-      box-shadow: 0 0 10px rgba(245, 158, 11, 0.2);
-    }
-
-    .btn-reject {
-      background: rgba(255, 255, 255, 0.05);
-      color: var(--text-secondary);
-      border-color: var(--border-color);
-    }
-
-    .btn-reject:hover,
-    .finding-card.rejected .btn-reject {
-      background: var(--danger-light);
-      color: var(--danger-text);
-      border-color: var(--danger-light);
-      box-shadow: 0 0 10px rgba(239, 68, 68, 0.2);
+    .btn-reject { background: rgba(255, 255, 255, 0.05); color: var(--text-secondary); border-color: var(--border-color); }
+    .btn-reject:hover, .finding-card.rejected .btn-reject {
+      background: var(--danger-light); color: var(--danger-text); border-color: var(--danger-light);
     }
 
     .status-tag {
@@ -514,19 +549,117 @@
       gap: 4px;
     }
 
-    .tag-accepted {
-      background: var(--success-light);
+    .tag-accepted { background: var(--success-light); color: var(--success-text); }
+    .tag-rejected { background: var(--danger-light); color: var(--danger-text); }
+    .tag-editing { background: var(--warning-light); color: var(--warning-text); }
+
+    /* Action Plan Section */
+    #action-plan-section {
+      display: none;
+      background: rgba(16, 185, 129, 0.05);
+      border-radius: var(--radius-xl);
+      padding: 24px;
+      margin-top: 32px;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      box-shadow: 0 0 20px rgba(16, 185, 129, 0.1);
+    }
+
+    .plan-title {
       color: var(--success-text);
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
-    .tag-rejected {
-      background: var(--danger-light);
-      color: var(--danger-text);
+    .email-box {
+      background: rgba(0,0,0,0.3);
+      padding: 16px;
+      border-radius: var(--radius-md);
+      font-family: monospace;
+      font-size: 14px;
+      white-space: pre-wrap;
+      color: var(--text-secondary);
+      border: 1px solid var(--border-color);
+      margin-bottom: 20px;
     }
 
-    .tag-editing {
-      background: var(--warning-light);
-      color: var(--warning-text);
+    .checklist-items {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    .checklist-items li {
+      padding: 12px;
+      background: rgba(255,255,255,0.05);
+      border-radius: var(--radius-md);
+      margin-bottom: 8px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      border: 1px solid var(--border-color);
+    }
+
+    /* Sidebar */
+    #sidebar {
+      position: fixed;
+      top: 0;
+      right: -380px;
+      width: 380px;
+      height: 100vh;
+      background: rgba(10, 15, 30, 0.95);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-left: 1px solid var(--border-color);
+      z-index: 100;
+      transition: var(--transition);
+      padding: 24px;
+      overflow-y: auto;
+      box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+    }
+
+    #sidebar.open {
+      right: 0;
+    }
+
+    .sidebar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 16px;
+    }
+
+    .history-item {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .history-item:hover {
+      border-color: var(--primary);
+      background: rgba(255,255,255,0.08);
+    }
+
+    .history-role {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--primary-text);
+      margin-bottom: 4px;
+    }
+
+    .history-meta {
+      font-size: 12px;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
     }
 
     /* Toast Notifications */
@@ -534,7 +667,7 @@
       position: fixed;
       bottom: 24px;
       right: 24px;
-      z-index: 50;
+      z-index: 150;
       display: flex;
       flex-direction: column;
       gap: 10px;
@@ -564,29 +697,15 @@
       opacity: 1;
     }
 
-    .toast.error {
-      border-left-color: var(--danger);
-    }
-
-    .toast.success {
-      border-left-color: var(--success);
-    }
-
-    .toast-icon.error {
-      color: var(--danger);
-    }
-
-    .toast-icon.success {
-      color: var(--success);
-    }
+    .toast.error { border-left-color: var(--danger); }
+    .toast.success { border-left-color: var(--success); }
+    .toast-icon.error { color: var(--danger); }
+    .toast-icon.success { color: var(--success); }
 
     /* Space Theme Stars */
     #space-background {
       position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
+      top: 0; left: 0; right: 0; bottom: 0;
       z-index: -1;
       background: radial-gradient(ellipse at bottom, #0d1326 0%, #050814 100%);
       overflow: hidden;
@@ -609,27 +728,13 @@
     }
 
     @keyframes twinkle {
-
-      0%,
-      100% {
-        opacity: 0.3;
-        transform: scale(0.8);
-      }
-
-      50% {
-        opacity: 1;
-        transform: scale(1.2);
-      }
+      0%, 100% { opacity: 0.3; transform: scale(0.8); }
+      50% { opacity: 1; transform: scale(1.2); }
     }
 
     @keyframes drift {
-      0% {
-        transform: translateY(0);
-      }
-
-      100% {
-        transform: translateY(-100vh);
-      }
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-100vh); }
     }
   </style>
 </head>
@@ -645,16 +750,43 @@
   <header>
     <div class="header-content">
       <i data-lucide="eye" class="logo-icon"></i>
-      <h1>Trinethra <span>Supervisor Feedback Analyzer</span></h1>
+      <h1>Trinethra <span>Feedback Analyzer</span></h1>
+      <button class="export-btn" onclick="toggleSidebar()">
+        <i data-lucide="history" style="width: 16px; height: 16px;"></i> History
+      </button>
     </div>
   </header>
 
-  <div class="container">
+  <div id="sidebar">
+    <div class="sidebar-header">
+      <h2>Past Reports</h2>
+      <button class="btn btn-reject" onclick="toggleSidebar()" style="padding: 6px;"><i data-lucide="x"></i></button>
+    </div>
+    <div id="history-list">
+      <p style="color: var(--text-muted); font-size: 14px;">Loading history...</p>
+    </div>
+  </div>
+
+  <div class="container" id="main-container">
 
     <div class="card">
-      <h2><i data-lucide="message-square-text" style="width: 20px; height: 20px;"></i> Input Transcript</h2>
-      <textarea id="transcript" placeholder="Paste the full supervisor feedback transcript here..."></textarea>
-      <button class="analyze-btn" onclick="analyzeTranscript()">
+      <div class="card-header">
+        <h2><i data-lucide="message-square-text" style="width: 20px; height: 20px;"></i> Input Transcript</h2>
+        <div class="controls-group">
+          <select id="role-select" class="role-select">
+            <option value="Employee">Employee (General)</option>
+            <option value="Software Engineer">Software Engineer</option>
+            <option value="Sales Representative">Sales Representative</option>
+            <option value="Customer Support">Customer Support</option>
+            <option value="Manager">Manager</option>
+          </select>
+          <button class="mic-btn" id="mic-btn" onclick="toggleDictation()" title="Start Dictation">
+            <i data-lucide="mic" style="width: 18px; height: 18px;"></i>
+          </button>
+        </div>
+      </div>
+      <textarea id="transcript" placeholder="Paste the full supervisor feedback transcript here, or click the microphone to speak..."></textarea>
+      <button class="analyze-btn" onclick="analyzeTranscript()" id="analyze-btn">
         <i data-lucide="sparkles" style="width: 18px; height: 18px;"></i>
         Analyze Feedback
       </button>
@@ -665,118 +797,173 @@
         <div class="spinner"></div>
         Analyzing transcript using AI models...
       </div>
-
       <div class="skeleton-card">
         <div class="skeleton-line w-1/3"></div>
         <div class="skeleton-line w-full"></div>
-        <div class="skeleton-line w-5/6"></div>
-        <br>
+        <div class="skeleton-line w-5/6"></div><br>
         <div class="skeleton-line w-full"></div>
         <div class="skeleton-line w-1/2"></div>
-      </div>
-
-      <div class="skeleton-card" style="opacity: 0.7;">
-        <div class="skeleton-line w-1/3"></div>
-        <div class="skeleton-line w-full"></div>
-        <div class="skeleton-line w-5/6"></div>
       </div>
     </div>
 
     <div id="results-section">
+      <div class="sentiment-container" id="sentiment-container">
+        <div class="gauge-circle" id="sentiment-gauge">85</div>
+        <div class="sentiment-text">
+          <h3 id="sentiment-label">Highly Encouraging</h3>
+          <p>Overall Sentiment Score</p>
+        </div>
+      </div>
+
       <div class="results-header">
         <h2>AI-Generated Findings</h2>
-        <button class="export-btn" onclick="exportReport()">
-          <i data-lucide="download" style="width: 16px; height: 16px;"></i>
-          Export Report
-        </button>
+        <div class="header-actions">
+          <button class="export-btn" onclick="generateActionPlan()" id="plan-btn" style="border-color: var(--success); color: var(--success-text);">
+            <i data-lucide="zap" style="width: 16px; height: 16px;"></i> Action Plan
+          </button>
+          <button class="export-btn" onclick="exportReport()">
+            <i data-lucide="download" style="width: 16px; height: 16px;"></i> Export PDF
+          </button>
+        </div>
       </div>
       <div id="findings-container"></div>
+
+      <div id="action-plan-section">
+        <div class="plan-title"><i data-lucide="mail-check"></i> Action Plan & Email Draft</div>
+        <div style="font-size: 14px; color: var(--text-muted); margin-bottom: 8px;">Suggested Email Draft:</div>
+        <div class="email-box" id="plan-email"></div>
+        <div style="font-size: 14px; color: var(--text-muted); margin-bottom: 8px; margin-top: 16px;">30-Day Checklist:</div>
+        <ul class="checklist-items" id="plan-checklist"></ul>
+      </div>
     </div>
 
   </div>
 
-  <!-- Toast Container -->
   <div id="toast-container"></div>
 
   <script>
-    // Initialize Stars
     function initSpace() {
       const bg = document.getElementById('space-background');
       const starCount = 150;
-
       for (let i = 0; i < starCount; i++) {
         const star = document.createElement('div');
         star.className = 'star';
-
-        // Random size from 1px to 3px
         const size = Math.random() * 2 + 1;
         star.style.width = size + 'px';
         star.style.height = size + 'px';
-
-        // Random position
         star.style.left = Math.random() * 100 + 'vw';
-        star.style.top = Math.random() * 150 + 'vh'; // Spread below viewport to drift up
-
-        // Random animation durations and delays
+        star.style.top = Math.random() * 150 + 'vh';
         const twinkleDur = Math.random() * 3 + 2;
-        const driftDur = Math.random() * 50 + 30; // 30s to 80s to drift
-
+        const driftDur = Math.random() * 50 + 30;
         star.style.animationDuration = `${twinkleDur}s, ${driftDur}s`;
-        star.style.animationDelay = `${Math.random() * 5}s, -${Math.random() * driftDur}s`; // Negative delay to start mid-drift
-
-        // Random opacity for depth
+        star.style.animationDelay = `${Math.random() * 5}s, -${Math.random() * driftDur}s`;
         star.style.opacity = Math.random() * 0.7 + 0.3;
-
         bg.appendChild(star);
       }
     }
-
-    // Initialize Space Background
     initSpace();
-
-    // Initialize Lucide icons
     lucide.createIcons();
 
     let findings = [];
+    let currentReportId = null;
+    let isRecording = false;
+    let recognition = null;
 
-    // Toast System
+    // Speech Recognition
+    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      recognition = new SpeechRecognition();
+      recognition.continuous = true;
+      recognition.interimResults = true;
+
+      recognition.onresult = (event) => {
+        let finalTranscript = '';
+        for (let i = event.resultIndex; i < event.results.length; ++i) {
+          if (event.results[i].isFinal) {
+            finalTranscript += event.results[i][0].transcript + ' ';
+          }
+        }
+        if (finalTranscript) {
+          const textarea = document.getElementById('transcript');
+          textarea.value += (textarea.value ? ' ' : '') + finalTranscript;
+        }
+      };
+
+      recognition.onerror = (event) => {
+        console.error("Speech recognition error", event.error);
+        stopDictation();
+      };
+    }
+
+    function toggleDictation() {
+      if (!recognition) {
+        showToast('Speech recognition is not supported in this browser.', 'error');
+        return;
+      }
+
+      const micBtn = document.getElementById('mic-btn');
+      if (isRecording) {
+        stopDictation();
+      } else {
+        recognition.start();
+        isRecording = true;
+        micBtn.classList.add('recording');
+        showToast('Listening... Speak into your microphone.', 'success');
+      }
+    }
+
+    function stopDictation() {
+      if (recognition) recognition.stop();
+      isRecording = false;
+      document.getElementById('mic-btn').classList.remove('recording');
+    }
+
     function showToast(message, type = 'default') {
       const container = document.getElementById('toast-container');
       const toast = document.createElement('div');
       toast.className = `toast ${type}`;
-
       let iconName = 'info';
       if (type === 'error') iconName = 'alert-circle';
       if (type === 'success') iconName = 'check-circle-2';
-
-      toast.innerHTML = `
-      <i data-lucide="${iconName}" class="toast-icon ${type}"></i>
-      <span>${message}</span>
-    `;
-
+      toast.innerHTML = `<i data-lucide="${iconName}" class="toast-icon ${type}"></i><span>${message}</span>`;
       container.appendChild(toast);
       lucide.createIcons({ root: toast });
-
-      // Trigger animation
       setTimeout(() => toast.classList.add('show'), 10);
-
-      // Remove after 3 seconds
       setTimeout(() => {
         toast.classList.remove('show');
         setTimeout(() => toast.remove(), 300);
       }, 3000);
     }
 
+    function updateGauge(score) {
+      const gauge = document.getElementById('sentiment-gauge');
+      gauge.innerText = score;
+      if (score >= 80) {
+        gauge.style.borderColor = 'var(--success)';
+        gauge.style.color = 'var(--success-text)';
+      } else if (score >= 50) {
+        gauge.style.borderColor = 'var(--warning)';
+        gauge.style.color = 'var(--warning-text)';
+      } else {
+        gauge.style.borderColor = 'var(--danger)';
+        gauge.style.color = 'var(--danger-text)';
+      }
+    }
+
     async function analyzeTranscript() {
       const transcript = document.getElementById('transcript').value.trim();
+      const role = document.getElementById('role-select').value;
       if (!transcript) {
         showToast('Please paste a transcript first.', 'error');
         return;
       }
 
+      if (isRecording) stopDictation();
+
       document.getElementById('loading').style.display = 'block';
       document.getElementById('results-section').style.display = 'none';
-      const btn = document.querySelector('.analyze-btn');
+      document.getElementById('action-plan-section').style.display = 'none';
+      const btn = document.getElementById('analyze-btn');
       btn.disabled = true;
       btn.innerHTML = `<div class="spinner" style="border-top-color: white; width: 18px; height: 18px; border-width: 2px;"></div> Analyzing...`;
 
@@ -784,21 +971,76 @@
         const response = await fetch('/analyze', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ transcript })
+          body: JSON.stringify({ transcript, role })
         });
 
         const data = await response.json();
+        if (data.error) throw new Error(data.error);
+
+        currentReportId = data.report_id;
         findings = data.findings.map(f => ({ ...f, status: 'pending' }));
+        
+        document.getElementById('sentiment-label').innerText = data.sentiment_label || 'Analyzed';
+        updateGauge(data.sentiment_score || 0);
+
         renderFindings();
         showToast('Analysis complete!', 'success');
       } catch (err) {
-        showToast('Error: Make sure the local Ollama instance is running.', 'error');
+        showToast('Error analyzing. Check backend or API keys.', 'error');
         console.error(err);
       } finally {
         document.getElementById('loading').style.display = 'none';
         btn.disabled = false;
         btn.innerHTML = `<i data-lucide="sparkles" style="width: 18px; height: 18px;"></i> Analyze Feedback`;
         lucide.createIcons({ root: btn });
+      }
+    }
+
+    async function generateActionPlan() {
+      const accepted = findings.filter(f => f.status !== 'rejected');
+      if (accepted.length === 0) {
+        showToast('No accepted findings to base the plan on.', 'error');
+        return;
+      }
+      if (!currentReportId) return;
+
+      const btn = document.getElementById('plan-btn');
+      const originalHtml = btn.innerHTML;
+      btn.disabled = true;
+      btn.innerHTML = `<div class="spinner" style="border-width: 2px; width: 14px; height: 14px;"></div> Generating...`;
+
+      try {
+        const response = await fetch('/generate_plan', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ report_id: currentReportId, findings: accepted })
+        });
+
+        const data = await response.json();
+        if (data.error) throw new Error(data.error);
+
+        document.getElementById('plan-email').innerText = data.email;
+        const checklist = document.getElementById('plan-checklist');
+        checklist.innerHTML = '';
+        data.checklist.forEach(item => {
+          checklist.innerHTML += `<li><i data-lucide="check-square" style="color: var(--success); width: 18px; margin-top: 2px;"></i> <span>${item}</span></li>`;
+        });
+        
+        document.getElementById('action-plan-section').style.display = 'block';
+        lucide.createIcons();
+        showToast('Action Plan Generated!', 'success');
+        
+        // Scroll to action plan
+        setTimeout(() => {
+          document.getElementById('action-plan-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+
+      } catch (err) {
+        showToast('Failed to generate action plan.', 'error');
+        console.error(err);
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = originalHtml;
       }
     }
 
@@ -823,44 +1065,22 @@
               <span class="finding-title">${f.title}</span>
               ${statusTag}
             </div>
-            <span class="score-badge">
-              <i data-lucide="award" style="width: 14px; height: 14px;"></i>
-              ${f.score}/10
-            </span>
+            <span class="score-badge"><i data-lucide="award" style="width: 14px; height: 14px;"></i> ${f.score}/10</span>
           </div>
-
-          <div class="finding-label">
-            <i data-lucide="file-text" style="width: 14px; height: 14px;"></i>
-            Observation
-          </div>
-          <div class="finding-text editable" contenteditable="true" id="obs-${i}"
-               onblur="saveEdit(${i}, 'observation', this.innerText)">${f.observation}</div>
-
-          <div class="finding-label">
-            <i data-lucide="lightbulb" style="width: 14px; height: 14px;"></i>
-            Gap / Suggestion
-          </div>
-          <div class="finding-text editable" contenteditable="true" id="gap-${i}"
-               onblur="saveEdit(${i}, 'gap', this.innerText)">${f.gap}</div>
-
+          <div class="finding-label"><i data-lucide="file-text" style="width: 14px; height: 14px;"></i> Observation</div>
+          <div class="finding-text editable" contenteditable="true" onblur="saveEdit(${i}, 'observation', this.innerText)">${f.observation}</div>
+          <div class="finding-label"><i data-lucide="lightbulb" style="width: 14px; height: 14px;"></i> Gap / Suggestion</div>
+          <div class="finding-text editable" contenteditable="true" onblur="saveEdit(${i}, 'gap', this.innerText)">${f.gap}</div>
           <div class="action-buttons">
-            <button class="btn btn-accept" onclick="setStatus(${i}, 'accepted')">
-              <i data-lucide="check-circle" style="width: 14px; height: 14px;"></i> Accept
-            </button>
-            <button class="btn btn-edit" onclick="setStatus(${i}, 'editing')">
-              <i data-lucide="edit" style="width: 14px; height: 14px;"></i> Edit
-            </button>
-            <button class="btn btn-reject" onclick="setStatus(${i}, 'rejected')">
-              <i data-lucide="x-circle" style="width: 14px; height: 14px;"></i> Reject
-            </button>
+            <button class="btn btn-accept" onclick="setStatus(${i}, 'accepted')"><i data-lucide="check-circle" style="width: 14px; height: 14px;"></i> Accept</button>
+            <button class="btn btn-edit" onclick="setStatus(${i}, 'editing')"><i data-lucide="edit" style="width: 14px; height: 14px;"></i> Edit</button>
+            <button class="btn btn-reject" onclick="setStatus(${i}, 'rejected')"><i data-lucide="x-circle" style="width: 14px; height: 14px;"></i> Reject</button>
           </div>
         </div>
       `;
       });
 
       document.getElementById('results-section').style.display = 'block';
-
-      // Re-initialize icons for the new elements
       lucide.createIcons();
     }
 
@@ -875,7 +1095,6 @@
 
     function exportReport() {
       const accepted = findings.filter(f => f.status !== 'rejected');
-
       if (accepted.length === 0) {
         showToast('No accepted findings to export.', 'error');
         return;
@@ -884,44 +1103,117 @@
       try {
         const { jsPDF } = window.jspdf;
         const doc = new jsPDF();
-
         let yPos = 20;
         doc.setFontSize(16);
-        doc.text('Trinethra - Supervisor Feedback Analysis Report', 14, yPos);
+        doc.text('Trinethra - Supervisor Feedback Analysis', 14, yPos);
         yPos += 15;
-
         doc.setFontSize(11);
 
         accepted.forEach((f, i) => {
-          // Add new page if we are near the bottom
-          if (yPos > 260) {
-            doc.addPage();
-            yPos = 20;
-          }
-
+          if (yPos > 260) { doc.addPage(); yPos = 20; }
           doc.setFont("helvetica", "bold");
           doc.text(`Finding ${i + 1}: ${f.title} (Score: ${f.score}/10)`, 14, yPos);
           yPos += 7;
-
           doc.setFont("helvetica", "normal");
           const obsLines = doc.splitTextToSize(`Observation: ${f.observation}`, 180);
           doc.text(obsLines, 14, yPos);
           yPos += (obsLines.length * 6);
-
           const gapLines = doc.splitTextToSize(`Gap/Suggestion: ${f.gap}`, 180);
           doc.text(gapLines, 14, yPos);
           yPos += (gapLines.length * 6) + 8;
         });
 
         doc.save('trinethra_report.pdf');
-        showToast('Report exported as PDF successfully!', 'success');
+        showToast('Report exported!', 'success');
       } catch (err) {
-        showToast('Failed to export PDF report.', 'error');
-        console.error(err);
+        showToast('Failed to export PDF.', 'error');
       }
     }
+
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      const container = document.getElementById('main-container');
+      if (sidebar.classList.contains('open')) {
+        sidebar.classList.remove('open');
+        container.style.transform = 'translateX(0)';
+      } else {
+        sidebar.classList.add('open');
+        if (window.innerWidth > 1000) {
+          container.style.transform = 'translateX(-175px)';
+        }
+        fetchHistory();
+      }
+    }
+
+    async function fetchHistory() {
+      const list = document.getElementById('history-list');
+      list.innerHTML = '<div class="spinner" style="margin: 20px auto;"></div>';
+      try {
+        const response = await fetch('/history');
+        const data = await response.json();
+        list.innerHTML = '';
+        if (data.history.length === 0) {
+          list.innerHTML = '<p style="color: var(--text-muted); font-size: 14px;">No past reports found.</p>';
+          return;
+        }
+        data.history.forEach(item => {
+          list.innerHTML += `
+            <div class="history-item" onclick="loadReport(${item.id})">
+              <div class="history-role">${item.role}</div>
+              <div class="history-meta">
+                <span>Score: ${item.sentiment_score}</span>
+                <span>${item.created_at.split(' ')[0]}</span>
+              </div>
+            </div>
+          `;
+        });
+      } catch (err) {
+        list.innerHTML = '<p style="color: var(--danger-text); font-size: 14px;">Failed to load history.</p>';
+      }
+    }
+
+    async function loadReport(id) {
+      toggleSidebar();
+      document.getElementById('loading').style.display = 'block';
+      document.getElementById('results-section').style.display = 'none';
+      document.getElementById('action-plan-section').style.display = 'none';
+      window.scrollTo(0, 0);
+
+      try {
+        const response = await fetch(`/report/${id}`);
+        const data = await response.json();
+        if (data.error) throw new Error(data.error);
+
+        document.getElementById('transcript').value = data.transcript;
+        document.getElementById('role-select').value = data.role;
+        
+        currentReportId = data.id;
+        findings = data.findings.map(f => ({ ...f, status: f.status || 'accepted' }));
+        
+        document.getElementById('sentiment-label').innerText = data.sentiment_label || 'Analyzed';
+        updateGauge(data.sentiment_score || 0);
+
+        renderFindings();
+
+        if (data.action_plan) {
+          document.getElementById('plan-email').innerText = data.action_plan.email;
+          const checklist = document.getElementById('plan-checklist');
+          checklist.innerHTML = '';
+          data.action_plan.checklist.forEach(item => {
+            checklist.innerHTML += `<li><i data-lucide="check-square" style="color: var(--success); width: 18px; margin-top: 2px;"></i> <span>${item}</span></li>`;
+          });
+          document.getElementById('action-plan-section').style.display = 'block';
+          lucide.createIcons();
+        }
+
+        showToast('Report loaded.', 'success');
+      } catch (err) {
+        showToast('Failed to load report.', 'error');
+      } finally {
+        document.getElementById('loading').style.display = 'none';
+      }
+    }
+
   </script>
-
 </body>
-
 </html>
