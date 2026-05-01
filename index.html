@@ -774,6 +774,8 @@
         <h2><i data-lucide="message-square-text" style="width: 20px; height: 20px;"></i> Input Transcript</h2>
         <div class="controls-group">
           <select id="role-select" class="role-select">
+            <option value="" disabled selected>Select Category</option>
+            <option value="Student">Student</option>
             <option value="Employee">Employee (General)</option>
             <option value="Software Engineer">Software Engineer</option>
             <option value="Sales Representative">Sales Representative</option>
@@ -953,6 +955,12 @@
     async function analyzeTranscript() {
       const transcript = document.getElementById('transcript').value.trim();
       const role = document.getElementById('role-select').value;
+      
+      if (!role) {
+        showToast('Please select a category first.', 'error');
+        return;
+      }
+
       if (!transcript) {
         showToast('Please paste a transcript first.', 'error');
         return;
