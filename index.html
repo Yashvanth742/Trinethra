@@ -1,75 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Trinethra — Supervisor Feedback Analyzer</title>
-  
+
   <!-- Google Fonts: Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  
+
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
-<<<<<<< HEAD
-  
   <!-- jsPDF -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-=======
->>>>>>> 3d07664 (feat: Redesign UI to be more professional)
 
   <style>
     :root {
-      --bg-color: #f8fafc;
-      --card-bg: #ffffff;
-      --text-primary: #0f172a;
-      --text-secondary: #475569;
+      --bg-color: #050814;
+      --card-bg: rgba(20, 25, 45, 0.6);
+      --text-primary: #f8fafc;
+      --text-secondary: #cbd5e1;
       --text-muted: #94a3b8;
-      
-      --primary: #4f46e5;
-      --primary-hover: #4338ca;
-      --primary-light: #e0e7ff;
-      --primary-text: #3730a3;
-      
-      --success: #10b981;
-      --success-light: #d1fae5;
-      --success-text: #065f46;
-      --success-hover: #10b981;
-      
-      --danger: #ef4444;
-      --danger-light: #fee2e2;
-      --danger-text: #991b1b;
-      
-      --warning: #f59e0b;
-      --warning-light: #fef3c7;
-      --warning-text: #92400e;
 
-      --border-color: #e2e8f0;
-      
-      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-      --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-      
+      --primary: #818cf8;
+      --primary-hover: #6366f1;
+      --primary-light: rgba(99, 102, 241, 0.2);
+      --primary-text: #a5b4fc;
+
+      --success: #10b981;
+      --success-light: rgba(16, 185, 129, 0.2);
+      --success-text: #6ee7b7;
+      --success-hover: #059669;
+
+      --danger: #ef4444;
+      --danger-light: rgba(239, 68, 68, 0.2);
+      --danger-text: #fca5a5;
+
+      --warning: #f59e0b;
+      --warning-light: rgba(245, 158, 11, 0.2);
+      --warning-text: #fcd34d;
+
+      --border-color: rgba(255, 255, 255, 0.1);
+
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -2px rgba(0, 0, 0, 0.4);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -4px rgba(0, 0, 0, 0.5);
+
       --radius-md: 8px;
       --radius-lg: 12px;
       --radius-xl: 16px;
-      
+
       --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
     body {
       font-family: 'Inter', sans-serif;
-      background: var(--bg-color);
+      background: transparent;
       color: var(--text-primary);
       min-height: 100vh;
       line-height: 1.5;
+      position: relative;
     }
 
     header {
-      background: var(--card-bg);
+      background: rgba(10, 15, 30, 0.7);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border-color);
       padding: 16px 40px;
       display: flex;
@@ -95,44 +99,46 @@
       height: 28px;
     }
 
-    header h1 { 
-      font-size: 20px; 
+    header h1 {
+      font-size: 20px;
       font-weight: 700;
       color: var(--text-primary);
       display: flex;
       align-items: center;
       gap: 10px;
     }
-    
-    header span { 
-      font-size: 14px; 
+
+    header span {
+      font-size: 14px;
       font-weight: 500;
-      color: var(--text-muted); 
+      color: var(--text-muted);
       margin-left: 8px;
       border-left: 1px solid var(--border-color);
       padding-left: 12px;
     }
 
-    .container { 
-      max-width: 800px; 
-      margin: 40px auto; 
-      padding: 0 20px; 
+    .container {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 0 20px;
     }
 
     .card {
       background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       border-radius: var(--radius-xl);
       padding: 32px;
-      box-shadow: var(--shadow-md);
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
       margin-bottom: 32px;
-      border: 1px solid rgba(0,0,0,0.05);
+      border: 1px solid var(--border-color);
     }
 
-    .card h2 { 
-      font-size: 18px; 
+    .card h2 {
+      font-size: 18px;
       font-weight: 600;
-      margin-bottom: 16px; 
-      color: var(--text-primary); 
+      margin-bottom: 16px;
+      color: var(--text-primary);
       display: flex;
       align-items: center;
       gap: 8px;
@@ -148,18 +154,18 @@
       resize: vertical;
       font-family: inherit;
       color: var(--text-primary);
-      background: #fcfcfd;
+      background: rgba(0, 0, 0, 0.2);
       transition: var(--transition);
       line-height: 1.6;
     }
 
-    textarea:focus { 
-      outline: none; 
-      border-color: var(--primary); 
-      box-shadow: 0 0 0 4px var(--primary-light);
-      background: white;
+    textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px var(--primary-light), 0 0 15px rgba(129, 140, 248, 0.3);
+      background: rgba(0, 0, 0, 0.4);
     }
-    
+
     textarea::placeholder {
       color: var(--text-muted);
     }
@@ -183,19 +189,19 @@
       box-shadow: 0 2px 4px rgba(79, 70, 229, 0.2);
     }
 
-    button.analyze-btn:hover { 
-      background: var(--primary-hover); 
+    button.analyze-btn:hover {
+      background: var(--primary-hover);
       transform: translateY(-1px);
-      box-shadow: 0 4px 6px rgba(79, 70, 229, 0.3);
+      box-shadow: 0 0 15px rgba(129, 140, 248, 0.6), 0 4px 6px rgba(0, 0, 0, 0.3);
     }
-    
+
     button.analyze-btn:active {
       transform: translateY(0);
     }
-    
-    button.analyze-btn:disabled { 
-      background: var(--text-muted); 
-      cursor: not-allowed; 
+
+    button.analyze-btn:disabled {
+      background: var(--text-muted);
+      cursor: not-allowed;
       transform: none;
       box-shadow: none;
     }
@@ -205,7 +211,7 @@
       display: none;
       margin-bottom: 32px;
     }
-    
+
     .loading-header {
       display: flex;
       align-items: center;
@@ -215,45 +221,73 @@
       font-weight: 500;
       font-size: 15px;
     }
-    
+
     .spinner {
-      width: 20px; height: 20px;
+      width: 20px;
+      height: 20px;
       border: 2px solid var(--border-color);
       border-top-color: var(--primary);
       border-radius: 50%;
       animation: spin 0.8s linear infinite;
     }
 
-    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
 
     .skeleton-card {
-      background: white;
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
       border-radius: var(--radius-lg);
       padding: 24px;
       margin-bottom: 16px;
       border: 1px solid var(--border-color);
       box-shadow: var(--shadow-sm);
     }
-    
+
     .skeleton-line {
       height: 12px;
-      background: #e2e8f0;
+      background: rgba(255, 255, 255, 0.1);
       border-radius: 4px;
       margin-bottom: 12px;
       animation: pulse 1.5s ease-in-out infinite;
     }
-    
-    .skeleton-line.w-1\/3 { width: 33%; height: 20px; margin-bottom: 20px; }
-    .skeleton-line.w-full { width: 100%; }
-    .skeleton-line.w-5\/6 { width: 83%; }
-    .skeleton-line.w-1\/2 { width: 50%; }
 
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.5; }
+    .skeleton-line.w-1\/3 {
+      width: 33%;
+      height: 20px;
+      margin-bottom: 20px;
     }
 
-    #results-section { display: none; }
+    .skeleton-line.w-full {
+      width: 100%;
+    }
+
+    .skeleton-line.w-5\/6 {
+      width: 83%;
+    }
+
+    .skeleton-line.w-1\/2 {
+      width: 50%;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0.5;
+      }
+    }
+
+    #results-section {
+      display: none;
+    }
 
     .results-header {
       display: flex;
@@ -264,14 +298,14 @@
       border-bottom: 1px solid var(--border-color);
     }
 
-    .results-header h2 { 
-      font-size: 20px; 
-      font-weight: 700; 
+    .results-header h2 {
+      font-size: 20px;
+      font-weight: 700;
       color: var(--text-primary);
     }
 
     .export-btn {
-      background: white;
+      background: rgba(255, 255, 255, 0.05);
       color: var(--text-primary);
       border: 1px solid var(--border-color);
       padding: 10px 16px;
@@ -284,15 +318,19 @@
       gap: 8px;
       transition: var(--transition);
       box-shadow: var(--shadow-sm);
+      backdrop-filter: blur(8px);
     }
 
-    .export-btn:hover { 
-      background: #f1f5f9; 
-      border-color: #cbd5e1;
+    .export-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.3);
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
     }
 
     .finding-card {
       background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       border-radius: var(--radius-lg);
       padding: 24px;
       margin-bottom: 20px;
@@ -305,12 +343,22 @@
     }
 
     .finding-card:hover {
-      box-shadow: var(--shadow-md);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), 0 0 15px rgba(129, 140, 248, 0.15);
+      transform: translateY(-2px);
     }
 
-    .finding-card.accepted { border-left-color: var(--success); }
-    .finding-card.rejected { border-left-color: var(--danger); opacity: 0.6; }
-    .finding-card.editing { border-left-color: var(--warning); }
+    .finding-card.accepted {
+      border-left-color: var(--success);
+    }
+
+    .finding-card.rejected {
+      border-left-color: var(--danger);
+      opacity: 0.6;
+    }
+
+    .finding-card.editing {
+      border-left-color: var(--warning);
+    }
 
     .finding-header {
       display: flex;
@@ -326,9 +374,9 @@
       flex-wrap: wrap;
     }
 
-    .finding-title { 
-      font-size: 16px; 
-      font-weight: 600; 
+    .finding-title {
+      font-size: 16px;
+      font-weight: 600;
       color: var(--text-primary);
     }
 
@@ -343,8 +391,11 @@
       align-items: center;
       gap: 4px;
     }
-    
-    .finding-card.accepted .score-badge { background: var(--success-light); color: var(--success-text); }
+
+    .finding-card.accepted .score-badge {
+      background: var(--success-light);
+      color: var(--success-text);
+    }
 
     .finding-label {
       font-size: 12px;
@@ -359,12 +410,12 @@
       gap: 6px;
     }
 
-    .finding-text { 
-      font-size: 15px; 
-      color: var(--text-secondary); 
-      line-height: 1.6; 
+    .finding-text {
+      font-size: 15px;
+      color: var(--text-secondary);
+      line-height: 1.6;
       padding: 8px 12px;
-      background: #f8fafc;
+      background: rgba(0, 0, 0, 0.15);
       border-radius: 6px;
       border: 1px solid transparent;
       transition: var(--transition);
@@ -372,26 +423,28 @@
 
     .finding-text.editable {
       border: 1px solid var(--border-color);
-      background: white;
+      background: rgba(0, 0, 0, 0.25);
     }
-    
-    .finding-card.rejected .finding-text { background: transparent; }
+
+    .finding-card.rejected .finding-text {
+      background: transparent;
+    }
 
     .finding-text.editable:hover {
-      border-color: #cbd5e1;
+      border-color: rgba(255, 255, 255, 0.2);
     }
 
-    .finding-text.editable:focus { 
-      outline: none; 
-      border-color: var(--primary); 
-      background: white;
-      box-shadow: 0 0 0 3px var(--primary-light);
+    .finding-text.editable:focus {
+      outline: none;
+      border-color: var(--primary);
+      background: rgba(0, 0, 0, 0.4);
+      box-shadow: 0 0 0 3px var(--primary-light), 0 0 8px rgba(129, 140, 248, 0.3);
     }
 
-    .action-buttons { 
-      display: flex; 
-      gap: 8px; 
-      margin-top: 24px; 
+    .action-buttons {
+      display: flex;
+      gap: 8px;
+      margin-top: 24px;
       border-top: 1px solid var(--border-color);
       padding-top: 16px;
     }
@@ -409,37 +462,46 @@
       transition: var(--transition);
     }
 
-    .btn-accept { 
-      background: white; 
+    .btn-accept {
+      background: rgba(255, 255, 255, 0.05);
       color: var(--text-secondary);
       border-color: var(--border-color);
     }
-    .btn-accept:hover, .finding-card.accepted .btn-accept { 
-      background: var(--success-light); 
-      color: var(--success-text); 
+
+    .btn-accept:hover,
+    .finding-card.accepted .btn-accept {
+      background: var(--success-light);
+      color: var(--success-text);
       border-color: var(--success-light);
+      box-shadow: 0 0 10px rgba(16, 185, 129, 0.2);
     }
-    
-    .btn-edit { 
-      background: white; 
-      color: var(--text-secondary); 
+
+    .btn-edit {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-secondary);
       border-color: var(--border-color);
     }
-    .btn-edit:hover, .finding-card.editing .btn-edit { 
-      background: var(--warning-light); 
-      color: var(--warning-text); 
+
+    .btn-edit:hover,
+    .finding-card.editing .btn-edit {
+      background: var(--warning-light);
+      color: var(--warning-text);
       border-color: var(--warning-light);
+      box-shadow: 0 0 10px rgba(245, 158, 11, 0.2);
     }
-    
-    .btn-reject { 
-      background: white; 
-      color: var(--text-secondary); 
+
+    .btn-reject {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-secondary);
       border-color: var(--border-color);
     }
-    .btn-reject:hover, .finding-card.rejected .btn-reject { 
-      background: var(--danger-light); 
-      color: var(--danger-text); 
+
+    .btn-reject:hover,
+    .finding-card.rejected .btn-reject {
+      background: var(--danger-light);
+      color: var(--danger-text);
       border-color: var(--danger-light);
+      box-shadow: 0 0 10px rgba(239, 68, 68, 0.2);
     }
 
     .status-tag {
@@ -452,9 +514,20 @@
       gap: 4px;
     }
 
-    .tag-accepted { background: var(--success-light); color: var(--success-text); }
-    .tag-rejected { background: var(--danger-light); color: var(--danger-text); }
-    .tag-editing { background: var(--warning-light); color: var(--warning-text); }
+    .tag-accepted {
+      background: var(--success-light);
+      color: var(--success-text);
+    }
+
+    .tag-rejected {
+      background: var(--danger-light);
+      color: var(--danger-text);
+    }
+
+    .tag-editing {
+      background: var(--warning-light);
+      color: var(--warning-text);
+    }
 
     /* Toast Notifications */
     #toast-container {
@@ -466,13 +539,15 @@
       flex-direction: column;
       gap: 10px;
     }
-    
+
     .toast {
-      background: white;
+      background: rgba(20, 25, 45, 0.9);
+      backdrop-filter: blur(10px);
       color: var(--text-primary);
       padding: 16px 20px;
       border-radius: var(--radius-md);
-      box-shadow: var(--shadow-lg);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+      border: 1px solid var(--border-color);
       display: flex;
       align-items: center;
       gap: 12px;
@@ -483,162 +558,265 @@
       opacity: 0;
       transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     }
-    
+
     .toast.show {
       transform: translateX(0);
       opacity: 1;
     }
-    
-    .toast.error { border-left-color: var(--danger); }
-    .toast.success { border-left-color: var(--success); }
-    
-    .toast-icon.error { color: var(--danger); }
-    .toast-icon.success { color: var(--success); }
 
+    .toast.error {
+      border-left-color: var(--danger);
+    }
+
+    .toast.success {
+      border-left-color: var(--success);
+    }
+
+    .toast-icon.error {
+      color: var(--danger);
+    }
+
+    .toast-icon.success {
+      color: var(--success);
+    }
+
+    /* Space Theme Stars */
+    #space-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: -1;
+      background: radial-gradient(ellipse at bottom, #0d1326 0%, #050814 100%);
+      overflow: hidden;
+    }
+
+    .star {
+      position: absolute;
+      background: #ffffff;
+      border-radius: 50%;
+      animation: twinkle ease-in-out infinite, drift linear infinite;
+      box-shadow: 0 0 5px #fff, 0 0 10px #fff;
+    }
+
+    .star-nebula {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(60px);
+      opacity: 0.4;
+      z-index: -1;
+    }
+
+    @keyframes twinkle {
+
+      0%,
+      100% {
+        opacity: 0.3;
+        transform: scale(0.8);
+      }
+
+      50% {
+        opacity: 1;
+        transform: scale(1.2);
+      }
+    }
+
+    @keyframes drift {
+      0% {
+        transform: translateY(0);
+      }
+
+      100% {
+        transform: translateY(-100vh);
+      }
+    }
   </style>
 </head>
+
 <body>
 
-<header>
-  <div class="header-content">
-    <i data-lucide="eye" class="logo-icon"></i>
-    <h1>Trinethra <span>Supervisor Feedback Analyzer</span></h1>
-  </div>
-</header>
-
-<div class="container">
-
-  <div class="card">
-    <h2><i data-lucide="message-square-text" style="width: 20px; height: 20px;"></i> Input Transcript</h2>
-    <textarea id="transcript" placeholder="Paste the full supervisor feedback transcript here..."></textarea>
-    <button class="analyze-btn" onclick="analyzeTranscript()">
-      <i data-lucide="sparkles" style="width: 18px; height: 18px;"></i>
-      Analyze Feedback
-    </button>
+  <div id="space-background">
+    <div class="star-nebula" style="width: 400px; height: 400px; background: #4f46e5; top: 10%; left: 20%;"></div>
+    <div class="star-nebula" style="width: 500px; height: 500px; background: #8b5cf6; bottom: 10%; right: 10%;"></div>
+    <div class="star-nebula" style="width: 300px; height: 300px; background: #ec4899; top: 40%; right: 40%;"></div>
   </div>
 
-  <div id="loading">
-    <div class="loading-header">
-      <div class="spinner"></div>
-      Analyzing transcript using AI models...
+  <header>
+    <div class="header-content">
+      <i data-lucide="eye" class="logo-icon"></i>
+      <h1>Trinethra <span>Supervisor Feedback Analyzer</span></h1>
     </div>
-    
-    <div class="skeleton-card">
-      <div class="skeleton-line w-1/3"></div>
-      <div class="skeleton-line w-full"></div>
-      <div class="skeleton-line w-5/6"></div>
-      <br>
-      <div class="skeleton-line w-full"></div>
-      <div class="skeleton-line w-1/2"></div>
-    </div>
-    
-    <div class="skeleton-card" style="opacity: 0.7;">
-      <div class="skeleton-line w-1/3"></div>
-      <div class="skeleton-line w-full"></div>
-      <div class="skeleton-line w-5/6"></div>
-    </div>
-  </div>
+  </header>
 
-  <div id="results-section">
-    <div class="results-header">
-      <h2>AI-Generated Findings</h2>
-      <button class="export-btn" onclick="exportReport()">
-        <i data-lucide="download" style="width: 16px; height: 16px;"></i>
-        Export Report
+  <div class="container">
+
+    <div class="card">
+      <h2><i data-lucide="message-square-text" style="width: 20px; height: 20px;"></i> Input Transcript</h2>
+      <textarea id="transcript" placeholder="Paste the full supervisor feedback transcript here..."></textarea>
+      <button class="analyze-btn" onclick="analyzeTranscript()">
+        <i data-lucide="sparkles" style="width: 18px; height: 18px;"></i>
+        Analyze Feedback
       </button>
     </div>
-    <div id="findings-container"></div>
+
+    <div id="loading">
+      <div class="loading-header">
+        <div class="spinner"></div>
+        Analyzing transcript using AI models...
+      </div>
+
+      <div class="skeleton-card">
+        <div class="skeleton-line w-1/3"></div>
+        <div class="skeleton-line w-full"></div>
+        <div class="skeleton-line w-5/6"></div>
+        <br>
+        <div class="skeleton-line w-full"></div>
+        <div class="skeleton-line w-1/2"></div>
+      </div>
+
+      <div class="skeleton-card" style="opacity: 0.7;">
+        <div class="skeleton-line w-1/3"></div>
+        <div class="skeleton-line w-full"></div>
+        <div class="skeleton-line w-5/6"></div>
+      </div>
+    </div>
+
+    <div id="results-section">
+      <div class="results-header">
+        <h2>AI-Generated Findings</h2>
+        <button class="export-btn" onclick="exportReport()">
+          <i data-lucide="download" style="width: 16px; height: 16px;"></i>
+          Export Report
+        </button>
+      </div>
+      <div id="findings-container"></div>
+    </div>
+
   </div>
 
-</div>
+  <!-- Toast Container -->
+  <div id="toast-container"></div>
 
-<!-- Toast Container -->
-<div id="toast-container"></div>
+  <script>
+    // Initialize Stars
+    function initSpace() {
+      const bg = document.getElementById('space-background');
+      const starCount = 150;
 
-<script>
-  // Initialize Lucide icons
-  lucide.createIcons();
+      for (let i = 0; i < starCount; i++) {
+        const star = document.createElement('div');
+        star.className = 'star';
 
-  let findings = [];
+        // Random size from 1px to 3px
+        const size = Math.random() * 2 + 1;
+        star.style.width = size + 'px';
+        star.style.height = size + 'px';
 
-  // Toast System
-  function showToast(message, type = 'default') {
-    const container = document.getElementById('toast-container');
-    const toast = document.createElement('div');
-    toast.className = `toast ${type}`;
-    
-    let iconName = 'info';
-    if (type === 'error') iconName = 'alert-circle';
-    if (type === 'success') iconName = 'check-circle-2';
-    
-    toast.innerHTML = `
+        // Random position
+        star.style.left = Math.random() * 100 + 'vw';
+        star.style.top = Math.random() * 150 + 'vh'; // Spread below viewport to drift up
+
+        // Random animation durations and delays
+        const twinkleDur = Math.random() * 3 + 2;
+        const driftDur = Math.random() * 50 + 30; // 30s to 80s to drift
+
+        star.style.animationDuration = `${twinkleDur}s, ${driftDur}s`;
+        star.style.animationDelay = `${Math.random() * 5}s, -${Math.random() * driftDur}s`; // Negative delay to start mid-drift
+
+        // Random opacity for depth
+        star.style.opacity = Math.random() * 0.7 + 0.3;
+
+        bg.appendChild(star);
+      }
+    }
+
+    // Initialize Space Background
+    initSpace();
+
+    // Initialize Lucide icons
+    lucide.createIcons();
+
+    let findings = [];
+
+    // Toast System
+    function showToast(message, type = 'default') {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+
+      let iconName = 'info';
+      if (type === 'error') iconName = 'alert-circle';
+      if (type === 'success') iconName = 'check-circle-2';
+
+      toast.innerHTML = `
       <i data-lucide="${iconName}" class="toast-icon ${type}"></i>
       <span>${message}</span>
     `;
-    
-    container.appendChild(toast);
-    lucide.createIcons({ root: toast });
-    
-    // Trigger animation
-    setTimeout(() => toast.classList.add('show'), 10);
-    
-    // Remove after 3 seconds
-    setTimeout(() => {
-      toast.classList.remove('show');
-      setTimeout(() => toast.remove(), 300);
-    }, 3000);
-  }
 
-  async function analyzeTranscript() {
-    const transcript = document.getElementById('transcript').value.trim();
-    if (!transcript) { 
-      showToast('Please paste a transcript first.', 'error'); 
-      return; 
+      container.appendChild(toast);
+      lucide.createIcons({ root: toast });
+
+      // Trigger animation
+      setTimeout(() => toast.classList.add('show'), 10);
+
+      // Remove after 3 seconds
+      setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 300);
+      }, 3000);
     }
 
-    document.getElementById('loading').style.display = 'block';
-    document.getElementById('results-section').style.display = 'none';
-    const btn = document.querySelector('.analyze-btn');
-    btn.disabled = true;
-    btn.innerHTML = `<div class="spinner" style="border-top-color: white; width: 18px; height: 18px; border-width: 2px;"></div> Analyzing...`;
-
-    try {
-      const response = await fetch('/analyze', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ transcript })
-      });
-
-      const data = await response.json();
-      findings = data.findings.map(f => ({ ...f, status: 'pending' }));
-      renderFindings();
-      showToast('Analysis complete!', 'success');
-    } catch (err) {
-      showToast('Error: Make sure the local Ollama instance is running.', 'error');
-      console.error(err);
-    } finally {
-      document.getElementById('loading').style.display = 'none';
-      btn.disabled = false;
-      btn.innerHTML = `<i data-lucide="sparkles" style="width: 18px; height: 18px;"></i> Analyze Feedback`;
-      lucide.createIcons({ root: btn });
-    }
-  }
-
-  function renderFindings() {
-    const container = document.getElementById('findings-container');
-    container.innerHTML = '';
-
-    findings.forEach((f, i) => {
-      let statusTag = '';
-      if (f.status === 'accepted') {
-        statusTag = `<span class="status-tag tag-accepted"><i data-lucide="check" style="width: 12px; height: 12px;"></i> Accepted</span>`;
-      } else if (f.status === 'rejected') {
-        statusTag = `<span class="status-tag tag-rejected"><i data-lucide="x" style="width: 12px; height: 12px;"></i> Rejected</span>`;
-      } else if (f.status === 'editing') {
-        statusTag = `<span class="status-tag tag-editing"><i data-lucide="edit-2" style="width: 12px; height: 12px;"></i> Editing</span>`;
+    async function analyzeTranscript() {
+      const transcript = document.getElementById('transcript').value.trim();
+      if (!transcript) {
+        showToast('Please paste a transcript first.', 'error');
+        return;
       }
 
-      container.innerHTML += `
+      document.getElementById('loading').style.display = 'block';
+      document.getElementById('results-section').style.display = 'none';
+      const btn = document.querySelector('.analyze-btn');
+      btn.disabled = true;
+      btn.innerHTML = `<div class="spinner" style="border-top-color: white; width: 18px; height: 18px; border-width: 2px;"></div> Analyzing...`;
+
+      try {
+        const response = await fetch('/analyze', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ transcript })
+        });
+
+        const data = await response.json();
+        findings = data.findings.map(f => ({ ...f, status: 'pending' }));
+        renderFindings();
+        showToast('Analysis complete!', 'success');
+      } catch (err) {
+        showToast('Error: Make sure the local Ollama instance is running.', 'error');
+        console.error(err);
+      } finally {
+        document.getElementById('loading').style.display = 'none';
+        btn.disabled = false;
+        btn.innerHTML = `<i data-lucide="sparkles" style="width: 18px; height: 18px;"></i> Analyze Feedback`;
+        lucide.createIcons({ root: btn });
+      }
+    }
+
+    function renderFindings() {
+      const container = document.getElementById('findings-container');
+      container.innerHTML = '';
+
+      findings.forEach((f, i) => {
+        let statusTag = '';
+        if (f.status === 'accepted') {
+          statusTag = `<span class="status-tag tag-accepted"><i data-lucide="check" style="width: 12px; height: 12px;"></i> Accepted</span>`;
+        } else if (f.status === 'rejected') {
+          statusTag = `<span class="status-tag tag-rejected"><i data-lucide="x" style="width: 12px; height: 12px;"></i> Rejected</span>`;
+        } else if (f.status === 'editing') {
+          statusTag = `<span class="status-tag tag-editing"><i data-lucide="edit-2" style="width: 12px; height: 12px;"></i> Editing</span>`;
+        }
+
+        container.innerHTML += `
         <div class="finding-card ${f.status}" id="card-${i}">
           <div class="finding-header">
             <div class="finding-title-group">
@@ -678,71 +856,72 @@
           </div>
         </div>
       `;
-    });
-
-    document.getElementById('results-section').style.display = 'block';
-    
-    // Re-initialize icons for the new elements
-    lucide.createIcons();
-  }
-
-  function setStatus(i, status) {
-    findings[i].status = status;
-    renderFindings();
-  }
-
-  function saveEdit(i, field, value) {
-    findings[i][field] = value;
-  }
-
-  function exportReport() {
-    const accepted = findings.filter(f => f.status !== 'rejected');
-    
-    if (accepted.length === 0) {
-      showToast('No accepted findings to export.', 'error');
-      return;
-    }
-    
-    try {
-      const { jsPDF } = window.jspdf;
-      const doc = new jsPDF();
-      
-      let yPos = 20;
-      doc.setFontSize(16);
-      doc.text('Trinethra - Supervisor Feedback Analysis Report', 14, yPos);
-      yPos += 15;
-      
-      doc.setFontSize(11);
-      
-      accepted.forEach((f, i) => {
-        // Add new page if we are near the bottom
-        if (yPos > 260) {
-          doc.addPage();
-          yPos = 20;
-        }
-        
-        doc.setFont("helvetica", "bold");
-        doc.text(`Finding ${i + 1}: ${f.title} (Score: ${f.score}/10)`, 14, yPos);
-        yPos += 7;
-        
-        doc.setFont("helvetica", "normal");
-        const obsLines = doc.splitTextToSize(`Observation: ${f.observation}`, 180);
-        doc.text(obsLines, 14, yPos);
-        yPos += (obsLines.length * 6);
-        
-        const gapLines = doc.splitTextToSize(`Gap/Suggestion: ${f.gap}`, 180);
-        doc.text(gapLines, 14, yPos);
-        yPos += (gapLines.length * 6) + 8;
       });
 
-      doc.save('trinethra_report.pdf');
-      showToast('Report exported as PDF successfully!', 'success');
-    } catch(err) {
-      showToast('Failed to export PDF report.', 'error');
-      console.error(err);
+      document.getElementById('results-section').style.display = 'block';
+
+      // Re-initialize icons for the new elements
+      lucide.createIcons();
     }
-  }
-</script>
+
+    function setStatus(i, status) {
+      findings[i].status = status;
+      renderFindings();
+    }
+
+    function saveEdit(i, field, value) {
+      findings[i][field] = value;
+    }
+
+    function exportReport() {
+      const accepted = findings.filter(f => f.status !== 'rejected');
+
+      if (accepted.length === 0) {
+        showToast('No accepted findings to export.', 'error');
+        return;
+      }
+
+      try {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+
+        let yPos = 20;
+        doc.setFontSize(16);
+        doc.text('Trinethra - Supervisor Feedback Analysis Report', 14, yPos);
+        yPos += 15;
+
+        doc.setFontSize(11);
+
+        accepted.forEach((f, i) => {
+          // Add new page if we are near the bottom
+          if (yPos > 260) {
+            doc.addPage();
+            yPos = 20;
+          }
+
+          doc.setFont("helvetica", "bold");
+          doc.text(`Finding ${i + 1}: ${f.title} (Score: ${f.score}/10)`, 14, yPos);
+          yPos += 7;
+
+          doc.setFont("helvetica", "normal");
+          const obsLines = doc.splitTextToSize(`Observation: ${f.observation}`, 180);
+          doc.text(obsLines, 14, yPos);
+          yPos += (obsLines.length * 6);
+
+          const gapLines = doc.splitTextToSize(`Gap/Suggestion: ${f.gap}`, 180);
+          doc.text(gapLines, 14, yPos);
+          yPos += (gapLines.length * 6) + 8;
+        });
+
+        doc.save('trinethra_report.pdf');
+        showToast('Report exported as PDF successfully!', 'success');
+      } catch (err) {
+        showToast('Failed to export PDF report.', 'error');
+        console.error(err);
+      }
+    }
+  </script>
 
 </body>
+
 </html>

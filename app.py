@@ -1,7 +1,7 @@
+import os
 from flask import Flask, request, jsonify, send_from_directory
-import requests
 import json
-
+import google.generativeai as genai
 app = Flask(__name__)
 
 @app.route('/')
@@ -37,18 +37,15 @@ Transcript:
 {transcript}
 """
 
-        response = requests.post('http://localhost:11434/api/generate', json={
-            "model": "llama3",
-            "prompt": prompt,
-            "stream": False,
-            "options": {
-                "num_predict": 2048,
-                "temperature": 0.2
-            }
-        }, timeout=120)
+        api_key = os.environ.get("GEMINI_API_KEY")
+        if not api_key:
+            return jsonify({"error": "GEMINI_API_KEY environment variable is not set. Please set it in Cloud Run to use the AI features."}), 400
 
-        result = response.json()
-        raw_text = result.get('response', '')
+        genai.configure(api_key=api_key)
+        model = genai.GenerativeModel('gemini-2.5-flash', generation_config={"temperature": 0.2, "max_output_tokens": 2048})
+        
+        response = model.generate_content(prompt)
+        raw_text = response.text
 
         print("RAW RESPONSE:", raw_text)
 
